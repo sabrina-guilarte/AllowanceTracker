@@ -19,9 +19,23 @@ const UserSelector = ({ loginData, setLoginData, setPage }) => {
 
     const [isPinModalOpen, setIsPinModalOpen] = useState()
     const users = [
-        { id: "dc7f14d2-ee0f-4065-9a47-b0d8793fc2c5", name: 'Andres', avatar: '/api/placeholder/150/150', isKid: false, pin: 2209 },
+        { id: "dc7f14d2-ee0f-4065-9a47-b0d8793fc2c5", name: 'Andres', avatar: '/api/placeholder/150/1504', isKid: false, pin: 2209},
         { id: "1f5e0e17-9dc2-4e7b-aaab-6d31729df538", name: 'Sabrina', avatar: '/api/placeholder/150/150', isKid: false, pin: 2208 },
-        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: 'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add2", name: 'Chedar2', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add1", name: 'Chedar', avatar: '/api/placeholder/150/150', isKid: true, pin: 7070 , balance:100 },
+        { id: "ee5bb61d-b3ee-4435-a8ff-f0760cc7add5", name: 'Picarita', avatar: '/api/placeholder/150/150', isKid: true, pin: 7171, balance:350  }
     ];
 
     const handleUserSelect = (userId) => {
@@ -42,7 +56,7 @@ const UserSelector = ({ loginData, setLoginData, setPage }) => {
 
     const onPinSubmited = (user) => {
         setLoginData({ ...loginData, ...user })
-        setPage("mainLayout", {user})
+        setPage("mainLayout", {user,users})
 
     }
 
@@ -54,7 +68,8 @@ const UserSelector = ({ loginData, setLoginData, setPage }) => {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    py: 8,
+             
+                   
                 }}
             >
                 <Typography
@@ -124,65 +139,8 @@ const UserSelector = ({ loginData, setLoginData, setPage }) => {
                         </Grid>
                     ))}
 
-                    {/* Add Profile Button */}
-                    <Grid item>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Paper
-                                elevation={3}
-                                sx={{
-                                    borderRadius: '4px',
-                                    overflow: 'hidden',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s',
-                                    '&:hover': {
-                                        transform: 'scale(1.1)',
-                                        bgcolor: 'action.hover',
-                                    },
-                                }}
-                                onClick={handleAddProfile}
-                            >
-                                <Box
-                                    sx={{
-                                        width: 150,
-                                        height: 150,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        bgcolor: 'action.selected',
-                                    }}
-                                >
-                                    <AddIcon sx={{ fontSize: 60, color: 'text.secondary' }} />
-                                </Box>
-                            </Paper>
-                            <Typography variant="body1" sx={{ mt: 2, color: 'text.primary' }}>
-                                Add Profile
-                            </Typography>
-                        </Box>
-                    </Grid>
+                
                 </Grid>
-
-                <Button
-                    variant="outlined"
-                    startIcon={<EditIcon />}
-                    onClick={handleEditProfiles}
-                    sx={{
-                        mt: 4,
-                        borderColor: 'text.secondary',
-                        color: 'text.secondary',
-                        '&:hover': {
-                            borderColor: 'text.primary',
-                            color: 'text.primary',
-                        },
-                    }}
-                >
-                    Manage Profiles
-                </Button>
 
                 <PinModal
                     open={isPinModalOpen}

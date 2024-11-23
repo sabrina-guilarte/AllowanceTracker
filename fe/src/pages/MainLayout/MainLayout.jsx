@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Drawer,
@@ -20,11 +20,23 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InventoryIcon from '@mui/icons-material/Inventory'; // Para Picor
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'; // Para Daimacu
+import ChildrenCard from '../../componets/childrenCard';
+import MovementDialog from '../../componets/movmentDialog';
+import { DataGrid } from '@mui/x-data-grid';
+import TransactionList from './transactionList';
+
+
 
 const drawerWidth = 280;
 
-const MainLayout = ({ children,parameters }) => {
+const MainLayout = ({ children, parameters,setPage }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false)
+  const [childId, setChildId] = useState(parameters?.user?.isKid? parameters?.user?.id : 0)
+  const [userName,setUsername] = useState(undefined)
+  const [mpage, setMPage] = useState(parameters?.user?.isKid? "trxList" : "childrenList")
+  const [type, setType] = useState(2)
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -32,9 +44,22 @@ const MainLayout = ({ children,parameters }) => {
   const user = Object.assign({
     avatar: "/api/placeholder/150/150",
     role: "Administrator"
-  },parameters.user)
+  }, parameters.user)
 
+  const swichPage = (page) => {
+    switch (page) {
+      case "childrenList":
+        return parameters.users.filter(u => u.isKid == true).map(u => <div style={{ marginTop: 20 }} onClick={()=> { setMPage("trxList"); setChildId(u.id)}} ><ChildrenCard name={u.name} balance={u.balance} avatar={u.avatar} setOpenDialog={setOpenDialog} setMovmentType={setType} /></div>)
 
+      case "trxList": 
+      return <TransactionList setMPage={setMPage} childId={childId} userName={userName}/>
+
+    }
+  }
+
+  useEffect(()=> {
+    setUsername( parameters.users.find(u=> u.id==childId)?.name)
+  },[childId])
 
   console.log(user)
 
@@ -42,16 +67,23 @@ const MainLayout = ({ children,parameters }) => {
     setMobileOpen(!mobileOpen);
   };
 
-  const menuItems = [
-    { text: 'Dashboard', icon: <InventoryIcon />, path: '/picor' }
-  ];
+  const menuItems = [];
 
-  if(!user.isKid) {
-    menuItems.push({ text: 'Administrar Familia', icon: <InventoryIcon />, path: '/picor' })
+  if (!user.isKid) {
+    menuItems.push(
+      { text: 'Dashboard', icon: <InventoryIcon />, fx: ()=>setMPage("childrenList") },
+      { text: 'Lista de transacciones', icon: <InventoryIcon />, fx: () => {setMPage("trxList"); setChildId(0)}  },
+      { text: 'Administrar Familia', icon: <InventoryIcon />, fx: '/picor' }
+    )
+  } else {
+    menuItems.push(
+      { text: 'Lista de transacciones', icon: <InventoryIcon />,  fx: () => {setMPage("trxList"); setChildId(user.id)}  }
+    )
   }
 
   const handleLogout = () => {
     console.log('Logging out...');
+    setPage("userSelector")
     // Implementar lógica de logout
   };
 
@@ -92,7 +124,7 @@ const MainLayout = ({ children,parameters }) => {
       <Box sx={{ flex: 1, overflowY: 'auto' }}>
         <List>
           {menuItems.map((item) => (
-            <ListItem key={item.text} disablePadding>
+            <ListItem key={item.text} disablePadding onClick={item.fx}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -228,8 +260,17 @@ const MainLayout = ({ children,parameters }) => {
           mt: { xs: 8, sm: 0 },
         }}
       >
-        {children}
+
+        {
+          swichPage(mpage)
+        }
+        <ChildrenCard />
       </Box>
+      <MovementDialog
+        open={openDialog}
+        setOpen={setOpenDialog}
+        type={type}
+      />
     </Box>
   );
 };
